@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from setuptools import setup, Extension
 
-VERSION = "0.1"
+VERSION = "0.2"
 
 setup(
     name="cast6ecb",
@@ -23,4 +23,5 @@ setup(
             define_macros=[("VERSION", '"%s"' % VERSION)]
         )
     ],
+    classifiers=['Topic :: Security :: Cryptography'],
 )
