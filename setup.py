@@ -1,5 +1,5 @@
-#!/usr/bin/env python
-from distutils.core import setup, Extension
+#!/usr/bin/env python3
+from setuptools import setup, Extension
 
 VERSION = "0.1"
 
@@ -8,8 +8,9 @@ setup(
     version=VERSION,
     description="Python3 interface to mcrypt library, only for CAST-256 (CAST6) algorithm, with ECB mode.",
     author="Remi Paulmier",
-    author_email="remi.paulmier@blablacar.com",
+    author_email="pypi-ops@blablacar.com",
     license="LGPL",
+    url="https://github.com/shtouff/python-cast6ecb",
     long_description= \
         """
         Partial python3 interface to mcrypt library. This can be used only for CAST-256 (CAST6) algorithm, with ECB mode.
