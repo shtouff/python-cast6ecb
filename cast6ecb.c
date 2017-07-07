@@ -18,9 +18,11 @@ mcrypt_do_cast6ecb(
     MCRYPT td;
 
     td = mcrypt_module_open(MCRYPT_CAST_256, NULL, MCRYPT_ECB, NULL);
-    if (td == MCRYPT_FAILED) {
-        return NULL;
-    }
+    if (td == MCRYPT_FAILED)
+        return PyErr_Format(PyExc_RuntimeError, "could not open CAST-256-ECB module");
+
+    if (mcrypt_generic_init(td, (void *)key, klen, NULL) < 0)
+        return PyErr_Format(PyExc_ValueError, "key is invalid");
 
     bsize = mcrypt_enc_get_block_size(td);
 
@@ -33,9 +35,6 @@ mcrypt_do_cast6ecb(
 
     memset(mdata, 0, mdlen);
     memcpy(mdata, data, dlen);
-
-    if (mcrypt_generic_init(td, (void *)key, klen, NULL) < 0)
-        return PyErr_Format(PyExc_ValueError, "key is invalid");
 
     if (dencrypt == CAST6ECB_ENCRYPT) {
         mcrypt_generic(td, mdata, (int)mdlen);
