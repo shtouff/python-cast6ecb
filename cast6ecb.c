@@ -4,6 +4,8 @@
 #define CAST6ECB_ENCRYPT 0
 #define CAST6ECB_DECRYPT 1
 
+static MCRYPT td;
+
 static PyObject *
 mcrypt_do_cast6ecb(
     const char *key,
@@ -15,11 +17,6 @@ mcrypt_do_cast6ecb(
     PyObject *ret;
     char *mdata;
     size_t mdlen, bsize;
-    MCRYPT td;
-
-    td = mcrypt_module_open(MCRYPT_CAST_256, NULL, MCRYPT_ECB, NULL);
-    if (td == MCRYPT_FAILED)
-        return PyErr_Format(PyExc_RuntimeError, "could not open CAST-256-ECB module");
 
     if (mcrypt_generic_init(td, (void *)key, klen, NULL) < 0)
         return PyErr_Format(PyExc_ValueError, "key is invalid");
@@ -28,25 +25,21 @@ mcrypt_do_cast6ecb(
 
     mdlen = (((dlen - 1) / bsize) + 1) * bsize;
     mdata = PyMem_Malloc(mdlen + 1);
-    if (mdata == NULL) {
-        PyErr_NoMemory();
-        return NULL;
-    }
+    if (mdata == NULL)
+        return PyErr_NoMemory();
 
     memset(mdata, 0, mdlen);
     memcpy(mdata, data, dlen);
 
-    if (dencrypt == CAST6ECB_ENCRYPT) {
+    if (dencrypt == CAST6ECB_ENCRYPT)
         mcrypt_generic(td, mdata, (int)mdlen);
-    } else {
+    else
         mdecrypt_generic(td, mdata, (int)mdlen);
-    }
 
     mdata[mdlen] = 0;
 
     ret = PyBytes_FromStringAndSize(mdata, mdlen);
     PyMem_Free(mdata);
-    mcrypt_module_close(td);
 
     return ret;
 }
@@ -63,17 +56,7 @@ cast6ecb_block_size(
     PyObject *self,
     PyObject *args
 ){
-    int bsize;
-    MCRYPT td;
-
-    td = mcrypt_module_open(MCRYPT_CAST_256, NULL, MCRYPT_ECB, NULL);
-    if (td == MCRYPT_FAILED)
-        return PyErr_Format(PyExc_RuntimeError, "could not open CAST-256-ECB module");
-
-    bsize = mcrypt_enc_get_block_size(td);
-    mcrypt_module_close(td);
-
-    return PyLong_FromLong(bsize);
+    return PyLong_FromLong(mcrypt_enc_get_block_size(td));
 }
 
 static char
@@ -144,5 +127,9 @@ PyMODINIT_FUNC
 PyInit_cast6ecb(
     void
 ){
+    td = mcrypt_module_open(MCRYPT_CAST_256, NULL, MCRYPT_ECB, NULL);
+    if (td == MCRYPT_FAILED)
+        return PyErr_Format(PyExc_RuntimeError, "could not open CAST-256-ECB module");
+
     return PyModule_Create(&cast6ecb_module);
 }
