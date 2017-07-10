@@ -3,7 +3,7 @@
 # Purpose
 This extension is aimed at helping people who still needs a binding to libmcrypt because they need to use CAST-256 (CAST6) algorithm, in ECB mode.
 
-As far as I know (I may bw wrong at this point, feel free to correct me if it's the case), none of the other python crypto libs (either semi-native like pycrypto or Cpython like openssl) still implement this algorithm. Even libsodium, which was chosen by the PHP community as a replacement for mcrypt in php72, does not implement it.
+As far as I know (I may be wrong at this point, feel free to correct me if it's the case), none of the other python crypto libs (either semi-native like pycrypto or Cpython like openssl) still implement this algorithm. Even libsodium, which was chosen by the PHP community as a replacement for mcrypt in php72, does not implement it.
 
 Since I needed to decrypt some specific things that were encrypted with this algo, using python3, I created this extension to achieve that very specific goal. It is focused on CAST-256-ECB because that was my need, and I hope this will be very temporary. 
 

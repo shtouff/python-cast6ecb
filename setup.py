@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from setuptools import setup, Extension
 
-VERSION = "0.2.1"
+VERSION = "0.2.1.dev0"
 
 setup(
     name="cast6ecb",
