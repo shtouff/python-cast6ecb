@@ -53,7 +53,7 @@ class Cast6EbcTestCase(unittest.TestCase):
         )
 
     def test_invalid_key_size(self):
-        key = 'foobarfoobarfoobarfoobarfoobarfoo' # 33 chars long, max is 32 for CAST-256
+        key = 'foobarfoobarfoobarfoobarfoobarfoo'  # 33 chars long, max is 32 for CAST-256
 
         with self.assertRaises(ValueError):
             encrypt(key, 'barbaz')
