@@ -1,3 +1,5 @@
+#define PY_SSIZE_T_CLEAN
+
 #include <Python.h>
 #include <mcrypt.h>
 
@@ -72,9 +74,9 @@ cast6ecb_encrypt(
     PyObject *args
 ){
     char *key;
-    size_t klen = 0;
+    Py_ssize_t klen = 0;
     char *plain;
-    size_t plen = 0;
+    Py_ssize_t plen = 0;
 
     if (!PyArg_ParseTuple(args, "s#s#:encrypt", &key, &klen, &plain, &plen))
         return NULL;
@@ -95,9 +97,9 @@ cast6ecb_decrypt(
     PyObject *args
 ){
     char *key;
-    size_t klen = 0;
+    Py_ssize_t klen = 0;
     char *secret;
-    size_t slen = 0;
+    Py_ssize_t slen = 0;
 
     if (!PyArg_ParseTuple(args, "s#s#:decrypt", &key, &klen, &secret, &slen))
         return NULL;
