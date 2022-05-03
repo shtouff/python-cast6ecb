@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
 from setuptools import setup, Extension
+from subprocess import Popen, PIPE
 
-VERSION = "0.3.0"
+VERSION = "0.3.1"
+
+
+def one_liner_as_list(cmd_line):
+    """
+    this runs a cmd like the old `` fashion and return the 1st line of output as a list of words.
+    """
+    return Popen(cmd_line.split(), stdout=PIPE).communicate()[0].decode().strip().split(" ")
 
 setup(
     name="cast6ecb",
@@ -20,7 +28,9 @@ setup(
             "cast6ecb",
             ["cast6ecb.c"],
             libraries=["mcrypt"],
-            define_macros=[("VERSION", '"%s"' % VERSION)]
+            define_macros=[("VERSION", '"%s"' % VERSION)],
+            extra_compile_args=one_liner_as_list("libmcrypt-config --cflags"),
+            extra_link_args=one_liner_as_list("libmcrypt-config --libs"),
         )
     ],
     classifiers=['Topic :: Security :: Cryptography'],
