@@ -23,16 +23,7 @@ $ python3 setup.py test
 
 ## Push to pypi
 
-First, check your $HOME/.pypirc:
+Please follow the procedure that is explained here: https://packaging.python.org/en/latest/tutorials/packaging-projects/
 
-```
-[pypi]
-username = <username>
-password = <password>
-```
-I had trouble with quoted user/password and password containing a '%'.
+If you choose to rehearse using the TestPypi platorm, keep in mind they trash everything (accounts, packages) from time to time.
 
-Then, run:
-```
-$ python3 setup.py sdist bdist_wheel upload
-```
